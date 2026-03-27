@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>signup/login</title>
+    <style>
+        body{
+            display: flex;
+            justify-content: center;
+        }
+        .login_signup_div{
+            margin-top: 20px;
+            width: 400px;
+            height: 500px;
+            border: 3px solid black;
+            border-radius: 25px;
+        }
+        .login_div{
+            display: flex;
+            flex-direction: column;
+            margin: 5px;
+        }
+        .login_label{
+            display: flex;
+            justify-content: center;
+            font-size: 25px;
+        }
+        .login_info{
+            display: flex;
+            flex-direction: column;
+            font-size: 30px;
+        }
+        .login_info input{
+            border: 2px solid black;
+            border-radius: 10px;
+            height: 40px;
+        }
+    </style>
+</head>
+<body>
+    <div class="login_signup_div">   
+        <div class="login_div">
+            <div class="login_label">
+                <h1 style="font-size: 60px;">Login</h1>
+            </div>
+            <div class="login_info" style="margin-bottom: 35px;">
+                <label for="username">Username</label>
+                <input type="text" placeholder="username" style="padding-left: 5px;">
+            </div>
+            <div class="login_info">
+                <label for="password">Password</label>
+                <input type="text" placeholder="password" style="padding-left: 5px;">
+            </div>
+            <p style="text-decoration: underline; cursor: pointer;">Sign Up</p>
+        </div>
+    </div>
+</body>
+</html>
