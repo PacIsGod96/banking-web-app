@@ -127,11 +127,19 @@
 
     <script>
         function showSignup() {
-            document.getElementById("panelContainer").style.transform = "translateX(-400px)";
+            const container = document.getElementById("panelContainer");
+            const signupPanel = document.querySelector(".signup_div")
+
+            container.style.transform = "translateX(-400px)";
+            signupPanel.scrollTop = 0;
         }
 
         function showLogin() {
-            document.getElementById("panelContainer").style.transform = "translateX(0)";
+            const container = document.getElementById("panelContainer");
+            const loginPanel = document.querySelector(".login_div")
+
+            container.style.transform = "translateX(0)";
+            loginPanel.scrollTop = 0;
         }
     </script>
 </body>
