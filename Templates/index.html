@@ -1,0 +1,174 @@
+{%extends "base.html"%}
+
+{%block title %}Register{% endblock %}
+{% block content %}
+<style>
+    .login_signup_div{
+        width: 400px;
+        height: 500px;
+        border: 3px solid black;
+        border-radius: 25px;
+        overflow: hidden;
+        margin: 100px auto;
+        position: relative;
+    }
+
+    .panel_container{
+        display: flex;
+        width: 800px;
+        transition: transform 0.5s ease;
+    }
+
+    .panel{
+        width: 400px;
+        height: 500px;
+        padding: 20px;
+        box-sizing: border-box;
+        overflow-y: auto;
+    }
+
+    .panel::-webkit-scrollbar{
+        width: 6px;
+    }
+
+    .panel::-webkit-scrollbar-thumb{
+        background-color: #888;
+        border-radius: 3px;
+    }
+
+    .panel::-webkit-scrollbar-thumb:hover{
+        background-color: #555;
+    }
+
+    .login_label h1{
+        font-size: 50px;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .panel label{
+        display: block;
+        margin-top: 10px;
+        font-size: 18px;
+    }
+
+    .panel input{
+        width: 100%;
+        height: 35px;
+        border: 1px solid black;
+        border-radius: 5px;
+        padding-left: 5px;
+        margin-top: 5px;
+    }
+
+    .switch{
+        margin-top: 20px;
+        text-decoration: underline;
+        cursor: pointer;
+        text-align: center;
+        font-weight: bold;
+        color: blue;
+    }
+
+    .switch:hover{
+        color: darkblue;
+    }
+</style>
+
+    <div class="login_signup_div"> 
+        <div class="panel_container" id="panelContainer">
+            <div class="login_div panel">
+                <div class="login_label">
+                    <h1 style="font-size: 60px;">Login</h1>
+                </div>
+                <form id="login_form" method="POST" action="/login">
+                    <div class="login_info" style="margin-bottom: 35px;">
+                        <label>Username</label>
+                        <input type="text" placeholder="username" name="login_username">
+                    </div>
+                    <div class="login_info">
+                        <label>Password</label>
+                        <input type="text" placeholder="password" name="login_password">
+                    </div>
+                </form>
+                <p onclick="showSignup()" class="switch">Sign Up</p>
+            </div>
+            <div class="signup_div panel">
+                <div class="login_label">
+                    <h1>Sign Up</h1>
+                </div>
+                <form class="signup_info" id="signupForm" action="/" method="POST" onsubmit="return handlesSignUpSubmit(event)">
+                    <label>Username</label>
+                    <input type="text" placeholder="username" name="username">
+
+                    <label>Password</label>
+                    <input type="text" placeholder="password" name="password">
+
+                    <label>First Name</label>
+                    <input type="text" placeholder="first name" name="first_name">
+
+                    <label>Last Name</label>
+                    <input type="text" placeholder="last name" name="last_name">
+
+                    <label>SSN</label>
+                    <input type="text" placeholder="SSN" name="ssn">
+
+                    <label>Address</label>
+                    <input type="text" placeholder="address" name="address">
+
+                    <label>Phone Number</label>
+                    <input type="text" placeholder="phone number" name="phone_number">
+
+                    <label>Role</label>
+                    <select name="role" id="role">
+                        <option value="user">User</option>
+                        <option value="admin">Admin</option>
+                    </select>
+
+                    <button type="submit" style="margin-top: 15px;">Register</button>
+                </form>
+
+                <p onclick="showLogin()" class="switch">Back to Login</p>
+            </div>
+        </div>  
+    </div>
+
+    <script>
+        const loginform = document.getElementById('login_form');
+
+        loginform.addEventListener('submit', () => {
+            setTimeout(() => {
+                loginform.reset()
+            }, 50);
+        });
+
+        function handlesSignUpSubmit(event) {
+            setTimeout(() => {
+                const inputs = document.querySelectorAll('#signupForm input');
+                inputs.forEach(input => input.value = "");
+
+                document.getElementById("role").value = "user";
+
+                showLogin();
+            }, 100)
+
+            return true;
+        }
+
+        function showSignup() {
+            const container = document.getElementById("panelContainer");
+            const signupPanel = document.querySelector(".signup_div")
+
+            container.style.transform = "translateX(-400px)";
+            signupPanel.scrollTop = 0;
+        }
+
+        function showLogin() {
+            const container = document.getElementById("panelContainer");
+            const loginPanel = document.querySelector(".login_div")
+
+            container.style.transform = "translateX(0)";
+            loginPanel.scrollTop = 0;
+        }
+    </script>
+{%endblock%}
