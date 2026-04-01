@@ -25,9 +25,9 @@ def register_post():
 
     sql = text("""
         INSERT INTO customer_info
-        (Username, PasswordHash, FirstName, LastName, SSN, Address, Phone,role)
+        (Username, PasswordHash, FirstName, LastName, SSN, Address, Phone, role)
         VALUES
-        (:username, :password, :first_name, :last_name, :ssn, :address, :phone_number, :role)
+        (:Username, :PasswordHash, :FirstName, :LastName, :SSN, :Address, :Phone, :role)
     """)
 
     conn.execute(sql, {
@@ -49,18 +49,42 @@ def login():
     username = request.form['login_username']
     password = request.form['login_password']
 
-    sql = text("SELECT Username, PasswordHash FROM customer_info WHERE Username = :Username ")
+    sql = text("SELECT Username, PasswordHash, role FROM customer_info WHERE Username = :Username ")
     result = conn.execute(sql, {'Username': username}).fetchone()
 
     if result:
-        stored_password = result[1]
+        stored_password = result['PasswordHash']
+        role = result['role']
 
         if check_password_hash(stored_password, password):
-            return redirect(url_for('home'))
+            if role.lower() == 'admin':
+                return redirect(url_for('admin_page'))
+            else:
+                return redirect(url_for('home'))
         else: 
-            return "Incorrect password"
+            return "Incorrect password", 401
     else:
-        return "Username not fround"
+        return "Username not fround", 404
+    
+@app.route('/admin_page', methods=['GET', 'POST'])
+def admin_page():
+    if request.method == 'POST': 
+        approved_users = request.form.getlist('approve')
+
+        if approved_users:
+            sql = text("UPDATE customer_info SET approved = TRUE WHERE Username IN :usernames")
+            conn.execute(sql, {'usernames': tuple(approved_users)})
+
+        return redirect(url_for('admin_page'))
+    
+    sql = text("""
+        SELECT Username, FirstName, LastName, Address, Phone, approved
+        FROM customer_info
+        ORDER BY approved IS NOT TRUE, Username
+    """)
+    users = conn.execute(sql).fetchall()
+
+    return render_template('admin_page.html', users=users)
 
 @app.route('/home')
 def home():
