@@ -1,4 +1,4 @@
-{%extends "base.html"%}
+{% extends "base.html" %}
 
 {%block title %}Register{% endblock %}
 {% block content %}
@@ -90,6 +90,7 @@
                         <label>Password</label>
                         <input type="text" placeholder="password" name="login_password">
                     </div>
+                    <button type="submit" style="margin-top: 15px;">Login</button>
                 </form>
                 <p onclick="showSignup()" class="switch">Sign Up</p>
             </div>
@@ -171,4 +172,4 @@
             loginPanel.scrollTop = 0;
         }
     </script>
-{%endblock%}
+{% endblock %}

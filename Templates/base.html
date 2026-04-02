@@ -13,6 +13,10 @@
             font-family: Arial, Helvetica, sans-serif;
         }
 
+        main {
+            flex: 1;
+        }
+
         header {
             padding: 15px 30px;
             display: flex;
@@ -61,10 +65,12 @@
 <body>
     <header>
         <ul class="barItem">
-            <li><a href="{{url_for('home')}}">Home</a></li>
-            <li><a href="{{url_for('register')}}">Register</a></li>
-            <li><a href="{{url_for('my_account')}}">My account</a></li>
-            <li><a href="{{url_for('add_send')}}">Add/Send</a></li>
+            {% if session.get('username') %}
+                <li><a href="{{url_for('home')}}">Home</a></li>
+                <li><a href="{{url_for('my_account')}}">My account</a></li>
+                <li><a href="{{url_for('add_send')}}">Add/Send</a></li>
+                <li><a href="{{url_for('logout')}}">Logout</a></li>
+            {% endif %}
         </ul>
     </header>
 
