@@ -2,6 +2,123 @@
 
 {% block title %}Admin{% endblock %}
 
-{%block content%}
+{% block content %}
 
-{%endblock%}
+<h1>Admin Dashord</h1>
+
+<form method="post">
+    <div style="display: flex; justify-content: space-between;">
+        <h2>Pending Users</h2>
+        <button type="submit">Submit</button>
+    </div>
+
+    <table style="width: 100%;">
+        <tr>
+            <th>Approve</th>
+            <th>Reject</th>
+            <th>Username</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Address</th>
+            <th>Phone</th>
+            <th>SSN</th>
+            <th>Status</th>
+        </tr>
+
+        {% for user in pending_users %}
+        <tr {% if user.approved %} style="background-color: #ffe6e6; text-align: center;" {% endif %}>
+            <td>
+                {% if user.approved is none %}
+                <input type="checkbox" name="approve" value="{{user.Username}}">
+                {% endif %}
+            </td>
+
+            <td>
+                {% if user.approved is none %}
+                <input type="checkbox" name="reject" value="{{ user.Username }}">
+                {% endif %}
+            </td>
+
+            <td>{{ user.Username }}</td>
+            <td>{{ user.FirstName }}</td>
+            <td>{{ user.LastName }}</td>
+            <td>{{ user.Address }}</td>
+            <td>{{ user.Phone }}</td>
+            <td>{{ user.SSN }}</td>
+            <td>
+                {% if user.approved is none %}
+                    Pending
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <div style="display: flex; justify-content: space-between;">   
+        <h2>Current Users</h2>
+    </div>
+
+    <table style="width: 100%;">
+        <tr>
+            <th>Username</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Address</th>
+            <th>Phone</th>
+            <th>SSN</th>
+            <th>Status</th>
+        </tr>
+
+        {% for user in approved_users %}
+        <tr {% if user.approved %} style="background-color: #ffe6e6; text-align: center;" {% endif %}>
+
+            <td >{{ user.Username }}</td>
+            <td>{{ user.FirstName }}</td>
+            <td>{{ user.LastName }}</td>
+            <td>{{ user.Address }}</td>
+            <td>{{ user.Phone }}</td>
+            <td>{{ user.SSN }}</td>
+            <td>
+                {% if user.approved is true %}
+                    Approved
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+        <div style="display: flex; justify-content: space-between;">   
+        <h2>Rejected Users</h2>
+    </div>
+
+    <table style="width: 100%;">
+        <tr>
+            <th>Username</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Address</th>
+            <th>Phone</th>
+            <th>SSN</th>
+            <th>Status</th>
+        </tr>
+
+        {% for user in rejected_users %}
+        <tr {% if not user.approved and user.approved is not none %} style="background-color: #ffe6e6; text-align: center;" {% endif %}>
+
+            <td>{{ user.Username }}</td>
+            <td>{{ user.FirstName }}</td>
+            <td>{{ user.LastName }}</td>
+            <td>{{ user.Address }}</td>
+            <td>{{ user.Phone }}</td>
+            <td>{{ user.SSN }}</td>
+            <td>
+                {% if user.approved is false %}
+                    Rejected
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</form>
+
+{% endblock %}
