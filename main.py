@@ -2,6 +2,8 @@ from flask import Flask, render_template, request, url_for, redirect, session
 from sqlalchemy import create_engine, text, bindparam
 from werkzeug.security import generate_password_hash, check_password_hash
 import os
+import random
+from decimal import Decimal 
 
 app = Flask(__name__)
 
@@ -10,6 +12,8 @@ app.secret_key = os.urandom(24)
 conn_str = "mysql://root:cset155@localhost/banking_website"
 engine = create_engine(conn_str, echo=True)
 conn = engine.connect()
+def generate_account_number():
+    return random.randint(10000000, 99999999)
 
 @app.route('/', methods = ['GET'])
 def register():
@@ -73,7 +77,7 @@ def login():
                 return redirect(url_for('admin_page'))
 
             if approved is None:
-                return "Account pending approval", 403
+                return redirect(url_for('register'))
             
             if approved is False:
                 return "Account rejected", 403
@@ -108,6 +112,45 @@ def admin_page():
                 WHERE Username IN :usernames
             """).bindparams(bindparam("usernames", expanding=True))
             conn.execute(sql, {'usernames': tuple(approved_users)})
+
+            for username in approved_users:
+                sql_get_ssn = text("""
+                    SELECT SSN FROM customer_info
+                    WHERE Username = :Username
+                """)
+
+                user = conn.execute(
+                    sql_get_ssn,
+                    {'Username': username}
+                ).mappings().fetchone()
+
+                if user:
+                    ssn = user['SSN']
+                    check_account = text("""
+                        SELECT * FROM accounts
+                        WHERE SSN = :SSN
+                    """)
+
+                    existing = conn.execute(
+                        check_account,
+                        {'SSN': ssn}
+                    ).fetchone()
+                    if not existing:
+                        account_number = generate_account_number()
+
+                        create_account = text("""
+                            INSERT INTO accounts
+                            (SSN, AccountNumber, AccountType, Balance)
+                            VALUES
+                            (:SSN, :AccountNumber, 'checking', 0.00)
+                        """)
+
+                        conn.execute(create_account, {
+                            'SSN': ssn,
+                            'AccountNumber': account_number
+                        })
+
+
 
         if rejected_users:
             sql = text("""
@@ -166,17 +209,36 @@ def home():
 @app.route('/account')
 def my_account():
     if not session.get('username'):
-        return redirect(url_for('register'))
-    
-    sql = text("SELECT approved FROM customer_info WHERE Username = :Username")
-    result = conn.execute(sql, {'Username': session['username']}).mappings().fetchone()
+        return redirect(url_for('home'))
 
-    if not result or result['approved'] !=1:
-        return "Accounts not approved", 403
-    
-    return render_template("my_account.html")
+    sql_user = text("""
+        SELECT Username, FirstName, LastName, Address, Phone, SSN
+        FROM customer_info
+        WHERE Username = :Username
+    """)
+    user = conn.execute(sql_user, {'Username': session['username']}).mappings().fetchone()
 
-@app.route('/add_send')
+    if not user:
+        return "User not found"
+    sql_account = text("""
+        SELECT AccountNumber, Balance
+        FROM accounts
+        WHERE SSN = :SSN AND AccountType='checking'
+    """)
+    account = conn.execute(sql_account, {'SSN': user['SSN']}).mappings().fetchone()
+
+    if account:
+        user = dict(user)  
+        user['AccountNumber'] = account['AccountNumber']
+        user['Balance'] = account['Balance']
+    else:
+        user = dict(user)
+        user['AccountNumber'] = None
+        user['Balance'] = None
+
+    return render_template("my_account.html", user=user)
+
+@app.route('/add_send',methods=['GET', 'POST'])
 def add_send():
     if not session.get('username'):
         return redirect(url_for('register'))
@@ -185,9 +247,72 @@ def add_send():
     result = conn.execute(sql, {'Username': session['username']}).mappings().fetchone()
 
     if not result or result['approved'] !=1:
-        return "Accounts not approved", 403
+        return "Accounts not approved"
     
-    return render_template("add_send.html")
+    sql_user = text("""
+        SELECT Username, FirstName, LastName, SSN
+        FROM customer_info
+        WHERE Username = :Username
+    """)
+    user = conn.execute(sql_user, {'Username': session['username']}).mappings().fetchone()
+    if not user:
+        return "User not found"
+    
+    sql_account = text("SELECT AccountNumber, Balance FROM accounts WHERE SSN = :SSN AND AccountType='checking'")
+    account = conn.execute(sql_account, {'SSN': user['SSN']}).mappings().fetchone()
+    if not account:
+        return "No checking account found", 404
+
+    if request.method == 'POST':
+        action = request.form.get('action')
+
+        if action == 'add':
+            card_number = request.form.get('card_number')
+            expiry = request.form.get('expiry')
+            ccv = request.form.get('ccv')
+            amount = Decimal(request.form.get('amount1', 0))
+            amount = round(amount, 2)
+
+            new_balance = account['Balance'] + amount
+            conn.execute(
+                text("UPDATE accounts SET Balance = :Balance WHERE AccountNumber = :AccNum"),
+                {'Balance': new_balance, 'AccNum': account['AccountNumber']}
+            )
+            conn.commit()
+            return redirect(url_for('my_account'))
+
+        elif action == 'send':
+            amount = Decimal(request.form.get('amount2', 0))
+            amount = round(amount, 2)
+            target_acc = request.form.get('target_account')
+
+            sql_target = text("SELECT Balance FROM accounts WHERE AccountNumber = :AccNum AND AccountType='checking'")
+            target = conn.execute(sql_target, {'AccNum': target_acc}).mappings().fetchone()
+            if not target:
+                return "Target account not found"
+
+            if account['Balance'] < amount:
+                return "Insufficient funds"
+            
+            new_sender_balance = account['Balance'] - amount
+            conn.execute(
+                text("UPDATE accounts SET Balance = :Balance WHERE AccountNumber = :AccNum"),
+                {'Balance': new_sender_balance, 'AccNum': account['AccountNumber']}
+            )
+
+            new_receiver_balance = target['Balance'] + amount
+            conn.execute(
+                text("UPDATE accounts SET Balance = :Balance WHERE AccountNumber = :AccNum"),
+                {'Balance': new_receiver_balance, 'AccNum': target_acc}
+            )
+
+            conn.commit()
+            return redirect(url_for('my_account'))
+
+
+    
+    
+    return render_template("add_send.html",user=user)
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -73,8 +73,21 @@
     .switch:hover{
         color: darkblue;
     }
+        .hero{
+        position: relative;
+        background-size: 90%,auto;
+        height: 100vh;
+        background: url('../static/photos/bank1.png') center/cover no-repeat;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        background-size: cover;
+        background-position: bottom top; 
+        background-repeat: no-repeat;
+    }
 </style>
-
+<div class="hero">
     <div class="login_signup_div"> 
         <div class="panel_container" id="panelContainer">
             <div class="login_div panel">
@@ -133,6 +146,7 @@
             </div>
         </div>  
     </div>
+</div>
 
     <script>
         const loginform = document.getElementById('login_form');

@@ -56,9 +56,51 @@
         .footer {
             background-color: #801818;
             text-align: center;
-            padding: 20px;
+            padding: 30px;
             color: white;
+            
         }
+        main {
+            flex: 1; 
+        }
+           .hero{
+        position: relative;
+        min-height: 100vh;
+        background: url('../static/photos/bank.png') center/cover no-repeat;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        flex: 1;
+        
+    }
+.hero-content {
+    position: relative;
+    z-index: 2;
+}
+
+.hero-content h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.hero-content p {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.hero-content button {
+    padding: 10px 20px;
+    font-size: 1.2rem;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.hero-content button:hover {
+    background-color: #0056b3;
+}
 
     </style>
 </head>
@@ -66,17 +108,18 @@
     <header>
         <ul class="barItem">
             {% if session.get('username') %}
-                <li><a href="{{url_for('home')}}">Home</a></li>
+            <li><a href="{{url_for('logout')}}">Home</a></li>
                 <li><a href="{{url_for('my_account')}}">My account</a></li>
-                <li><a href="{{url_for('add_send')}}">Add/Send</a></li>
+                {% if session.get('role') != 'admin' %}
+                    <li><a href="{{ url_for('add_send') }}">Add/Send</a></li>
+                {% endif %}
                 <li><a href="{{url_for('logout')}}">Logout</a></li>
             {% endif %}
         </ul>
     </header>
 
     <main>
-        {% block content %}
-        {% endblock %}
+        {% block content %}{% endblock %}
     </main>
 
     <footer class="footer">

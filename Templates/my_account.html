@@ -1,7 +1,21 @@
-{%extends"base.html"%}
+{% extends "base.html" %}
 
 {% block title %}My Account{% endblock %}
 
-{%block content}
+{% block content %}
+<h1>My Account</h1>
 
-{%endblock%}
+<div style="width: 500px; margin: auto; border: 2px solid #ccc; padding: 20px; border-radius: 10px;">
+    <p><strong>Username:</strong> {{ user.Username }}</p>
+    <p><strong>Name:</strong> {{ user.FirstName }} {{ user.LastName }}</p>
+    <p><strong>Address:</strong> {{ user.Address }}</p>
+    <p><strong>Phone:</strong> {{ user.Phone }}</p>
+    <hr>
+    {% if user.AccountNumber %}
+        <p><strong>Checking Account Number:</strong> {{ user.AccountNumber }}</p>
+        <p><strong>Balance:</strong> ${{ "%.2f"|format(user.Balance) }}</p>
+    {% else %}
+        <p>No checking account yet.</p>
+    {% endif %}
+</div>
+{% endblock %}
