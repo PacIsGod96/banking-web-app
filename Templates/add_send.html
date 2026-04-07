@@ -3,9 +3,11 @@
 {% block title %}Add / Send Money{% endblock %}
 
 {% block content %}
-<h1>Add Money or Send Money</h1>
+<main>
 
-<div style="width: 450px; margin: auto; border: 2px solid #ccc; padding: 20px; border-radius: 10px;">
+<div class="hero3">
+<div class="money_mang">
+    <h1>Add Money or Send Money</h1>
     <form method="POST">
         <label>Action:</label>
         <select name="action" id="actionSelect">
@@ -38,6 +40,9 @@
         <button type="submit" style="margin: 10px;">Submit</button>
     </form>
 </div>
+</div>
+</main>
+
 
 <script>
     const actionSelect = document.getElementById('actionSelect');

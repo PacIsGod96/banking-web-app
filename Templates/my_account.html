@@ -3,9 +3,11 @@
 {% block title %}My Account{% endblock %}
 
 {% block content %}
-<h1>My Account</h1>
 
-<div style="width: 500px; margin: auto; border: 2px solid #ccc; padding: 20px; border-radius: 10px;">
+<main>
+<div class="hero2">
+<div class="account_card">
+    <h1>My Account</h1>
     <p><strong>Username:</strong> {{ user.Username }}</p>
     <p><strong>Name:</strong> {{ user.FirstName }} {{ user.LastName }}</p>
     <p><strong>Address:</strong> {{ user.Address }}</p>
@@ -18,4 +20,6 @@
         <p>No checking account yet.</p>
     {% endif %}
 </div>
+</div>
+</main>
 {% endblock %}

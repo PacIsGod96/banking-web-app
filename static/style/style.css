@@ -1,0 +1,381 @@
+
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color:rgba(34,34,34,0.6);
+}
+
+.barItem {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+    background: #222;
+    padding: 15px 25px;
+    margin: 0;
+}
+
+.barItem a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.barItem a:hover {
+    color: #00bfff;
+}
+
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+
+.footer {
+    background-color: #111;
+    color: white;
+    margin-top: auto;
+}
+
+.footer_container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    max-width: 1100px;
+    margin: auto;
+    padding: 40px 20px;
+    gap: 30px;
+}
+
+.footer_section {
+    flex: 1;
+    min-width: 200px;
+}
+
+.footer_section h3 {
+    margin-bottom: 15px;
+    color: #00bfff;
+}
+
+.footer_section a {
+    display: block;
+    color: white;
+    text-decoration: none;
+    margin: 5px 0;
+}
+
+.footer_section a:hover {
+    color: #00bfff;
+}
+
+.footer_bottom {
+    text-align: center;
+    border-top: 1px solid #333;
+    padding: 15px;
+    font-size: 14px;
+}
+
+/* log in page */
+.hero {
+    width: 100vw;
+    height: 100vh;                    
+    background-image: url("/static/images/bank.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+    .login_signup_div{
+        width: 400px;
+        height: 500px;
+        border: 3px solid black;
+        border-radius: 25px;
+        overflow: hidden;
+        margin: 100px auto;
+        position: relative;
+        background-color: rgba(255,255,255,0.9);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        
+    }
+
+    .panel_container{
+        display: flex;
+        width: 800px;
+        transition: transform 0.5s ease;
+    }
+
+    .panel{
+        width: 400px;
+        height: 500px;
+        padding: 20px;
+        box-sizing: border-box;
+        overflow-y: auto;
+    }
+
+    .panel::-webkit-scrollbar{
+        width: 6px;
+    }
+
+    .panel::-webkit-scrollbar-thumb{
+        background-color: #888;
+        border-radius: 3px;
+    }
+
+    .panel::-webkit-scrollbar-thumb:hover{
+        background-color: #555;
+    }
+
+    .login_label h1{
+        font-size: 50px;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .panel label{
+        display: block;
+        margin-top: 10px;
+        font-size: 18px;
+    }
+
+    .panel input{
+        width: 100%;
+        height: 35px;
+        border: 1px solid black;
+        border-radius: 5px;
+        padding-left: 5px;
+        margin-top: 5px;
+    }
+
+    .switch{
+        margin-top: 20px;
+        text-decoration: underline;
+        cursor: pointer;
+        text-align: center;
+        font-weight: bold;
+        color: blue;
+    }
+
+    .switch:hover{
+        color: darkblue;
+    }
+
+    /* money page */
+.money_mang {
+    max-width: 500px;
+    margin: 50px auto;
+    padding: 20px;
+    border: 2px solid #222;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    text-align: center;
+}
+.money_mang label {
+    display: block;
+    margin-top: 10px;
+    font-weight: bold;
+}
+.money_mang input, .money_mang select, .money_mang button {
+    width: 100%;
+    margin-top: 5px;
+    padding: 8px;
+    box-sizing: border-box;
+}
+.money_mang h1 {
+    text-align: center;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* My Account Page */
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+}
+
+.account_card {
+    max-width: 500px;
+    width: 90%;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    text-align: center;
+}
+
+.account_card h1 {
+    margin-bottom: 20px;
+    font-size: 2em;
+}
+
+.account_card p {
+    margin: 10px 0;
+    font-size: 1.1em;
+}
+
+.hero1 {
+    width: 100vw;
+    height: 100vh;                    
+    background-image: url("/static/images/bank1.png");
+    background-size: cover;
+    background-position: center bottom;
+    background-repeat: no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.hero_card {
+    max-width: 500px;
+    width: 90%;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    text-align: center;
+}
+
+.hero_card h1 {
+    margin-bottom: 20px;
+    font-size: 2em;
+}
+.hero_card p {
+    margin: 10px 0;
+    font-size: 1.1em;
+}
+
+.hero_card button {
+    margin-top: 15px;
+    padding: 12px 25px;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    background-color: #222;
+    color: white;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.hero_card button:hover {
+    background-color: #00bfff;
+}
+
+/* acount page */
+.hero2 {
+    width: 100vw;
+    height: 100vh;                    
+    background-image: url("/static/images/bank2.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+
+.account_card {
+    max-width: 500px;
+    width: 90%;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    text-align: center;
+}
+
+.account_card h1 {
+    margin-bottom: 20px;
+    font-size: 2em;
+}
+
+.account_card p {
+    margin: 10px 0;
+    font-size: 1.1em;
+}
+
+.hero3 {
+    width: 100vw;
+    height: 100vh;                    
+    background-image: url("/static/images/bank 3.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+
+/* admin */
+.admin_panel_container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    padding: 20px;
+}
+
+
+.admin_card {
+    width: 90%;
+    max-width: 900px;
+    padding: 20px;
+    background-color: rgba(255,255,255,0.95);
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+
+
+.admin_card h2 {
+    text-align: center;
+    margin-bottom: 15px;
+    
+}
+
+
+.admin_card table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.admin_card th, .admin_card td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: center;
+}
+
+.admin_card tr:hover {
+    background-color: #e0f7ff;
+}
+
+.hero4 {
+    width: 100vw;
+    height: 100vh;                    
+    background-image: url("/static/images/bank4.png");
+    background-size: cover;
+    background-position: center bottom;
+    background-repeat: no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
